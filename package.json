@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/yeltsinGit/nodejs-learn#readme",
   "dependencies": {
+    "bootstrap": "4.3.1",
     "chalk": "2.4.2",
     "debug": "4.1.1",
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "jquery": "3.3.1",
+    "morgan": "1.9.1"
   }
 }
