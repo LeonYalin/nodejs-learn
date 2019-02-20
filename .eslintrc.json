@@ -1,17 +1,18 @@
 {
     "env": {
-        "shared-node-browser": true,
+        "browser": true,
         "commonjs": true,
-        "es6": true
+        "es6": true,
+        "node": true
     },
-    "extends": "eslint:recommended",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
+    "extends": "airbnb-base",
+    "globals": {},
     "parserOptions": {
         "ecmaVersion": 2018
     },
     "rules": {
-    }
+        "linebreak-style": 0,
+        "eslint linebreak-style": [0, "error", "windows"]
+    },
+    "plugins": ["json", "html"]
 }
