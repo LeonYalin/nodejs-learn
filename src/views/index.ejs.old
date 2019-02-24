@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Learn Node</title>
+</head>
+<body>
+    <div><%=title%></div>
+    <ul>
+        <% for(var i = 0; i < items.length; i++) { %>
+            <li><%=items[i] %></li>
+        <% } %>
+    </ul>
+</body>
+</html>
