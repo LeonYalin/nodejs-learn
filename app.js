@@ -12,6 +12,12 @@ const homeItems = require('./src/routes/homeItems');
 const homeRouter = require('./src/routes/homeRoutes')(homeItems);
 const indexLinks = require('./src/routes/indexLinks');
 
+// mysql
+const sqlUtil = require('./src/mysql/util');
+
+sqlUtil.createDB();
+// sqlUtil.createTables();
+
 function prevCode() {
   // function prevCode(app, res) {
   // app.set('view engine', 'pug');
