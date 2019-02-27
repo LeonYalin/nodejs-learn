@@ -7,8 +7,13 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 4000;
 
+const aboutRouter = require('./src/routes/aboutRoutes');
+const homeItems = require('./src/routes/homeItems');
+const homeRouter = require('./src/routes/homeRoutes')(homeItems);
+const indexLinks = require('./src/routes/indexLinks');
+
 function prevCode() {
-// function prevCode(app, res) {
+  // function prevCode(app, res) {
   // app.set('view engine', 'pug');
   // res.send('Hello from Node!');
   // res.sendFile(path.join(__dirname, 'views', 'index.html'));
@@ -23,11 +28,15 @@ app.use('/js', express.static(path.join(__dirname, 'node_modules', 'jquery', 'di
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
+// routing
+app.use('/about', aboutRouter);
+app.use('/home', homeRouter);
+
 app.get('/', (req, res) => {
   prevCode(app, res);
   res.render('index', {
     title: 'Hello node!',
-    items: ['first', 'second', 'third'],
+    links: indexLinks,
   });
 });
 

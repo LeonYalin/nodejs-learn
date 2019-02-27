@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/head.ejs %>
+</head>
+<body id="home-page">
+    <div>
+        <% for(let item of items) { %>
+        <div class="item">
+            <img class="item-img" src="<%=item.src%>"></a>
+            <a class="link" href="<%=item.link%>"><%=item.title %>
+        </div>
+    <% } %>
+    </div>
+</body>
+</html>
