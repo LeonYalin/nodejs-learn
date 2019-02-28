@@ -1,5 +1,7 @@
 const mysql = require('mysql');
 
+const { persons } = require('../fixtures/persons');
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -23,6 +25,11 @@ function query(queryStr) {
       resolve({ results, fields });
     }));
   });
+}
+
+function getSqlDate(date) {
+  const birthday = new Date(date);
+  return `${birthday.getFullYear()}-${birthday.getMonth()}-${birthday.getDate()}`;
 }
 
 /**
@@ -57,10 +64,23 @@ function createTables() {
   return query(queryCreateTables);
 }
 
+function fillTablesWithData(personsToStore) {
+  let queryFillTablesWithData = 'INSERT IGNORE INTO persons (firstName, lastName, birthday, age, gender) VALUES';
+  for (const person of personsToStore) {
+    queryFillTablesWithData += ` ('${person.firstName}', '${person.lastName}', '${getSqlDate(person.birthday)}', ${person.age}, '${person.gender}'),`;
+  }
+
+  // remove last comma
+  queryFillTablesWithData = queryFillTablesWithData.substr(0, queryFillTablesWithData.length - 1);
+
+  return query(queryFillTablesWithData);
+}
+
 async function createDBDataMethods() {
   await createDB();
   await useDB();
   await createTables();
+  await fillTablesWithData(persons);
   closeConnection();
 }
 
@@ -84,6 +104,7 @@ module.exports = {
   query,
   createDB,
   createTables,
+  fillTablesWithData,
   alterMysqlPassword,
   createDBData,
 };
