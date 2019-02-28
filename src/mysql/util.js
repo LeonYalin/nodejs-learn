@@ -6,30 +6,75 @@ const connection = mysql.createConnection({
   password: 'root',
 });
 
-
 function getConnection() { return connection; }
 
-function connect() { connection.connect(); }
+function connect(callback) { return connection.connect(callback); }
 
-function closeConnection() { connection.end(); }
+function closeConnection(callback) { return connection.end(callback); }
 
 function query(queryStr) {
-  // connect();
-  const { error, results, fields } = connection.query(queryStr);
+  return new Promise((resolve, reject) => {
+    connection.query(queryStr, ((error, results, fields) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      resolve({ results, fields });
+    }));
+  });
+}
+
+/**
+ * Use this if node cannot connect to the mysql first time the app is running.
+ * Run this in mysql workbench or cmd.
+ */
+function alterMysqlPassword() {
+  const queryAlterMysqlPassword = "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root";
+  return query(queryAlterMysqlPassword);
+}
+
+function createDB() {
+  const queryCreateDB = 'CREATE DATABASE IF NOT EXISTS node_learn';
+  return query(queryCreateDB);
+}
+
+function useDB() {
+  const queryUseDB = 'USE node_learn';
+  return query(queryUseDB);
+}
+
+function createTables() {
+  const queryCreateTables = `
+  CREATE TABLE IF NOT EXISTS persons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(20) NOT NULL,
+    lastName VARCHAR(20) NOT NULL,
+    birthday DATE,
+    age INT DEFAULT 0,
+    gender ENUM('m', 'f')
+    )`;
+  return query(queryCreateTables);
+}
+
+async function createDBDataMethods() {
+  await createDB();
+  await useDB();
+  await createTables();
   closeConnection();
-  return { error, results, fields };
 }
 
-async function createDB() {
-  const query1 = 'CREATE DATABASE IF NOT EXIST persons; USE persons';
-  const { error, results, fields } = await query(query1);
-  console.log(error, results, fields);
-}
-
-async function createTables() {
-  const query2 = 'CREATE TABLE IF NOT EXISTS persons ()';
-  const { error, results, fields } = await query(query2);
-  console.log(error, results, fields);
+function createDBData() {
+  try {
+    connect((err) => {
+      if (err) {
+        throw new Error(err);
+      }
+      createDBDataMethods();
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 module.exports = {
@@ -39,4 +84,6 @@ module.exports = {
   query,
   createDB,
   createTables,
+  alterMysqlPassword,
+  createDBData,
 };
