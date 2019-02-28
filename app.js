@@ -10,7 +10,8 @@ const port = process.env.PORT || 4000;
 const aboutRouter = require('./src/routes/aboutRoutes');
 const homeItems = require('./src/routes/homeItems');
 const homeRouter = require('./src/routes/homeRoutes')(homeItems);
-const indexRouter = require('./src/routes/indexRoutes');
+const indexLinks = require('./src/routes/indexLinks');
+const indexRouter = require('./src/routes/indexRoutes')(indexLinks);
 
 // routing
 app.use('/', indexRouter);
