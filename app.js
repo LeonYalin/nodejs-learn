@@ -19,7 +19,9 @@ app.use('/about', aboutRouter);
 app.use('/home', homeRouter);
 
 // mysql
-const sqlUtil = require('./src/mysql/util');
+const SqlUtilClass = require('./src/mysql/util');
+
+const sqlUtil = new SqlUtilClass();
 
 sqlUtil.createDBData();
 
