@@ -12,6 +12,7 @@ class SqlUtils {
       host: 'localhost',
       user: 'root',
       password: 'root',
+      database: 'node_learn',
     });
   }
 
@@ -68,15 +69,17 @@ class SqlUtils {
       lastName VARCHAR(20) NOT NULL,
       birthday DATE,
       age INT DEFAULT 0,
-      gender ENUM('m', 'f')
+      gender ENUM('m', 'f'),
+      img VARCHAR(255),
+      UNIQUE KEY(firstName, lastName, birthday, age, gender) 
       )`;
     return this.query(query);
   }
 
-  fillTablesWithData(personsToStore) {
-    let query = 'INSERT IGNORE INTO persons (firstName, lastName, birthday, age, gender) VALUES';
+  fillPersonsTableWithData(personsToStore) {
+    let query = 'INSERT IGNORE INTO persons (firstName, lastName, birthday, age, gender, img) VALUES';
     for (const person of personsToStore) {
-      query += ` ('${person.firstName}', '${person.lastName}', '${this.getSqlDate(person.birthday)}', ${person.age}, '${person.gender}'),`;
+      query += ` ('${person.firstName}', '${person.lastName}', '${SqlUtils.getSqlDate(person.birthday)}', ${person.age}, '${person.gender}', '${person.img}'),`;
     }
 
     // remove last comma
@@ -85,26 +88,57 @@ class SqlUtils {
     return this.query(query);
   }
 
-  async createDBDataMethods() {
+  getAllPersons() {
+    const query = 'SELECT * FROM persons';
+    return this.query(query);
+  }
+
+  getPerson(id) {
+    const query = `SELECT * FROM persons WHERE id = ${id[0]}`;
+    return this.query(query);
+  }
+
+  async createDBData() {
     await this.createDB();
     await this.useDB();
     await this.createTables();
-    await this.fillTablesWithData(persons);
-    this.closeConnection();
+    await this.fillPersonsTableWithData(persons);
   }
 
-  createDBData() {
-    try {
-      this.createConnection();
-      this.connect((err) => {
-        if (err) {
-          throw new Error(err);
-        }
-        this.createDBDataMethods();
-      });
-    } catch (e) {
-      console.log(e);
-    }
+  execQuery(callback, args = []) {
+    return new Promise((resolve, reject) => {
+      if (!callback) {
+        throw new Error('callback function is not provided');
+      }
+
+      try {
+        this.createConnection();
+        this.connect((err) => {
+          if (err) {
+            throw new Error(err);
+          }
+          callback.bind(this)(args).then((result) => {
+            this.closeConnection(() => {
+              resolve(result);
+            });
+          });
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  execCreateDBDataQuery() {
+    return this.execQuery(this.createDBData);
+  }
+
+  execGetAllPersonsQuery() {
+    return this.execQuery(this.getAllPersons);
+  }
+
+  execGetPersonQuery(id) {
+    return this.execQuery(this.getPerson, [parseInt(id, 10)]);
   }
 }
 

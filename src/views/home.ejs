@@ -5,12 +5,12 @@
 </head>
 <body id="home-page">
     <div>
-        <% for(let item of items) { %>
+        <% for (var i = 0; i < persons.length; i++ ) { %>
         <div class="item">
-            <img class="item-img" src="<%=item.src%>"></a>
-            <a class="link" href="<%=item.link%>"><%=item.title %>
+            <img class="item-img" src="<%=persons[i].img%>">
+            <a class="link" href="<%='/home/' + persons[i].id%>"><%=persons[i].firstName + ' ' + persons[i].lastName %></a>
         </div>
-    <% } %>
+        <% } %>
     </div>
 </body>
 </html>

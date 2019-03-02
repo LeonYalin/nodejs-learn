@@ -23,7 +23,7 @@ const SqlUtilClass = require('./src/mysql/util');
 
 const sqlUtil = new SqlUtilClass();
 
-sqlUtil.createDBData();
+sqlUtil.execCreateDBDataQuery();
 
 app.use(morgan('tiny')); // log network requests
 app.use(express.static(path.join(__dirname, 'public')));
