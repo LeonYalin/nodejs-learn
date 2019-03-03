@@ -1,23 +1,28 @@
 const express = require('express');
-const SqlUtilClass = require('../mysql/util');
-
-const sqlUtil = new SqlUtilClass();
+const SqlUtil = require('../mysql/util');
 
 module.exports = ((items) => {
   const homeRouter = express.Router();
 
   homeRouter.route('/').get((req, res) => {
-    sqlUtil.execGetAllPersonsQuery().then((data) => {
-      res.render('home', { persons: data.results });
-    });
+    (async function getPersons() {
+      const persons = await SqlUtil.getAllPersons();
+      res.render('home', { persons });
+    }());
   });
 
-  homeRouter.route('/:id').get((req, res) => {
-    const { id } = req.params;
-    sqlUtil.execGetPersonQuery(id).then((data) => {
-      res.render('item', { person: data.results[0] || {} });
+  homeRouter.route('/:id')
+    .all((req, res, next) => { // middleware example
+      (async function getPerson() {
+        const { id } = req.params;
+        const person = await SqlUtil.getSinglePerson(id);
+        req.person = person;
+        next();
+      }());
+    })
+    .get((req, res) => {
+      res.render('item', { person: req.person });
     });
-  });
 
   return homeRouter;
 });

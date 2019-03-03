@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('promise-mysql');
 
 const { persons } = require('../fixtures/persons');
 
@@ -7,33 +7,12 @@ class SqlUtils {
     this.connection = null;
   }
 
-  createConnection() {
-    this.connection = mysql.createConnection({
+  static createConnection() {
+    return mysql.createConnection({
       host: 'localhost',
       user: 'root',
       password: 'root',
       database: 'node_learn',
-    });
-  }
-
-  connect(callback) {
-    this.connection.connect(callback);
-  }
-
-  closeConnection(callback) {
-    this.connection.end(callback);
-  }
-
-  query(queryStr) {
-    return new Promise((resolve, reject) => {
-      this.connection.query(queryStr, ((error, results, fields) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-
-        resolve({ results, fields });
-      }));
     });
   }
 
@@ -46,22 +25,22 @@ class SqlUtils {
    * Use this if node cannot connect to the mysql first time the app is running.
    * Run this in mysql workbench or cmd.
    */
-  alterMysqlPassword() {
+  static alterMysqlPassword(connection) {
     const query = "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'";
-    return this.query(query);
+    return connection.query(query);
   }
 
-  createDB() {
+  static createDBQuery(connection) {
     const query = 'CREATE DATABASE IF NOT EXISTS node_learn';
-    return this.query(query);
+    return connection.query(query);
   }
 
-  useDB() {
+  static useDBQuery(connection) {
     const query = 'USE node_learn';
-    return this.query(query);
+    return connection.query(query);
   }
 
-  createTables() {
+  static createPersonsTableQuery(connection) {
     const query = `
     CREATE TABLE IF NOT EXISTS persons (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,10 +52,10 @@ class SqlUtils {
       img VARCHAR(255),
       UNIQUE KEY(firstName, lastName, birthday, age, gender) 
       )`;
-    return this.query(query);
+    return connection.query(query);
   }
 
-  fillPersonsTableWithData(personsToStore) {
+  static fillPersonsTableWithDataQuery(connection, personsToStore) {
     let query = 'INSERT IGNORE INTO persons (firstName, lastName, birthday, age, gender, img) VALUES';
     for (const person of personsToStore) {
       query += ` ('${person.firstName}', '${person.lastName}', '${SqlUtils.getSqlDate(person.birthday)}', ${person.age}, '${person.gender}', '${person.img}'),`;
@@ -85,60 +64,65 @@ class SqlUtils {
     // remove last comma
     query = query.substr(0, query.length - 1);
 
-    return this.query(query);
+    return connection.query(query);
   }
 
-  getAllPersons() {
+  static getAllPersonsQuery(connection) {
     const query = 'SELECT * FROM persons';
-    return this.query(query);
+    return connection.query(query);
   }
 
-  getPerson(id) {
-    const query = `SELECT * FROM persons WHERE id = ${id[0]}`;
-    return this.query(query);
+  static getSinglePersonQuery(connection, id) {
+    const query = `SELECT * FROM persons WHERE id = ${id}`;
+    return connection.query(query);
   }
 
-  async createDBData() {
-    await this.createDB();
-    await this.useDB();
-    await this.createTables();
-    await this.fillPersonsTableWithData(persons);
-  }
-
-  execQuery(callback, args = []) {
+  static createDBData() {
     return new Promise((resolve, reject) => {
-      if (!callback) {
-        throw new Error('callback function is not provided');
-      }
-
-      try {
-        this.createConnection();
-        this.connect((err) => {
-          if (err) {
-            throw new Error(err);
-          }
-          callback.bind(this)(args).then((result) => {
-            this.closeConnection(() => {
-              resolve(result);
-            });
-          });
-        });
-      } catch (e) {
-        reject(e);
-      }
+      (async function createData() {
+        try {
+          const connection = await SqlUtils.createConnection();
+          await SqlUtils.createDBQuery(connection);
+          await SqlUtils.useDBQuery(connection);
+          await SqlUtils.createPersonsTableQuery(connection);
+          await SqlUtils.fillPersonsTableWithDataQuery(connection, persons);
+          await connection.end();
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }());
     });
   }
 
-  execCreateDBDataQuery() {
-    return this.execQuery(this.createDBData);
+  static getAllPersons() {
+    return new Promise((resolve, reject) => {
+      (async function getPersons() {
+        try {
+          const connection = await SqlUtils.createConnection();
+          const allPersons = await SqlUtils.getAllPersonsQuery(connection);
+          await connection.end();
+          resolve(allPersons);
+        } catch (e) {
+          reject(e);
+        }
+      }());
+    });
   }
 
-  execGetAllPersonsQuery() {
-    return this.execQuery(this.getAllPersons);
-  }
-
-  execGetPersonQuery(id) {
-    return this.execQuery(this.getPerson, [parseInt(id, 10)]);
+  static getSinglePerson(id) {
+    return new Promise((resolve, reject) => {
+      (async function getPersons() {
+        try {
+          const connection = await SqlUtils.createConnection();
+          const person = await SqlUtils.getSinglePersonQuery(connection, parseInt(id, 10));
+          await connection.end();
+          resolve(person[0]);
+        } catch (e) {
+          reject(e);
+        }
+      }());
+    });
   }
 }
 

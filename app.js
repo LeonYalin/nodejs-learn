@@ -19,11 +19,9 @@ app.use('/about', aboutRouter);
 app.use('/home', homeRouter);
 
 // mysql
-const SqlUtilClass = require('./src/mysql/util');
+const SqlUtil = require('./src/mysql/util');
 
-const sqlUtil = new SqlUtilClass();
-
-sqlUtil.execCreateDBDataQuery();
+SqlUtil.createDBData();
 
 app.use(morgan('tiny')); // log network requests
 app.use(express.static(path.join(__dirname, 'public')));

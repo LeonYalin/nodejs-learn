@@ -5,7 +5,7 @@ module.exports = ((indexLinks) => {
 
   indexRouter.route('/').get((req, res) => {
     res.render('index', {
-      title: 'Hello node!',
+      title: 'Hello Node!',
       links: indexLinks,
     });
   });
