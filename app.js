@@ -7,21 +7,26 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 4000;
 
-const aboutRouter = require('./src/routes/aboutRoutes');
-const homeItems = require('./src/routes/homeItems');
-const homeRouter = require('./src/routes/homeRoutes')(homeItems);
+const adminRouter = require('./src/routes/adminRoutes');
+const personsItems = require('./src/routes/personsItems');
+const personsRouter = require('./src/routes/personsRoutes')(personsItems);
 const indexLinks = require('./src/routes/indexLinks');
 const indexRouter = require('./src/routes/indexRoutes')(indexLinks);
 
 // routing
 app.use('/', indexRouter);
-app.use('/about', aboutRouter);
-app.use('/home', homeRouter);
+app.use('/admin', adminRouter);
+app.use('/persons', personsRouter);
 
 // mysql
-const SqlUtil = require('./src/mysql/util');
+const SqlUtils = require('./src/db/sqlUtils');
 
-SqlUtil.createDBData();
+SqlUtils.createDBData();
+
+// mongodb
+const MongoUtils = require('./src/db/mongoUtils');
+
+MongoUtils.createPersonsCollection();
 
 app.use(morgan('tiny')); // log network requests
 app.use(express.static(path.join(__dirname, 'public')));

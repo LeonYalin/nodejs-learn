@@ -8,7 +8,7 @@
         <% for (var i = 0; i < persons.length; i++ ) { %>
         <div class="item">
             <img class="item-img" src="<%=persons[i].img%>">
-            <a class="link" href="<%='/home/' + persons[i].id%>"><%=persons[i].firstName + ' ' + persons[i].lastName %></a>
+            <a class="link" href="<%='/persons/' + persons[i].id%>"><%=persons[i].firstName + ' ' + persons[i].lastName %></a>
         </div>
         <% } %>
     </div>

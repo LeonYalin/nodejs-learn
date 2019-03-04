@@ -25,6 +25,7 @@
     "ejs": "2.6.1",
     "express": "4.16.4",
     "jquery": "3.3.1",
+    "mongodb": "3.1.13",
     "morgan": "1.9.1",
     "nodemon": "1.18.10",
     "promise-mysql": "3.3.1",

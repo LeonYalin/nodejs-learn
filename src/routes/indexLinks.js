@@ -1,4 +1,4 @@
 module.exports = [
-  { link: '/home', title: 'Home' },
-  { link: '/about', title: 'About' },
+  { link: '/persons', title: 'Persons' },
+  { link: '/admin', title: 'Admin' },
 ];
