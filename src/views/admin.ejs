@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/head.ejs %>
+</head>
+<body id="admin-page">
+  
+  <!-- ADD NEW PERSON -->
+  <div class="person-wrapper-block">
+    <form action="/admin/add" method="post">
+      <div class="form-group">
+        <h1>Add new person</h1>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input class="form-control" id="firstName" placeholder="Enter first name" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input class="form-control" id="lastName" placeholder="Enter last name" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="birthday">Birthday</label>
+        <input type="date" class="form-control" id="birthday" placeholder="Enter birthday" name="birthday" required>
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" placeholder="Enter age" name="age" value="0" min="0" max="120" required>
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select class="form-control" name="gender" id="gender" required>
+          <option value="m">M</option>
+          <option value="f">F</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="img">Image URL</label>
+        <input class="form-control" id="img" placeholder="Enter image url" name="img" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+
+</body>
+</html>
