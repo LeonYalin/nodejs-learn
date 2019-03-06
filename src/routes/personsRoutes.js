@@ -1,12 +1,15 @@
 const express = require('express');
-const SqlUtil = require('../db/sqlUtils');
+const SqlUtils = require('../db/sqlUtils');
+const MongoUtils = require('../db/mongoUtils');
 
 module.exports = ((items) => {
   const personsRouter = express.Router();
 
   personsRouter.route('/').get((req, res) => {
     (async function getPersons() {
-      const persons = await SqlUtil.getAllPersons();
+      const sqlPersons = await SqlUtils.getAllPersons();
+      const mongoPersons = await MongoUtils.getAllPersons();
+      const persons = [...sqlPersons, ...mongoPersons];
       res.render('persons', { persons });
     }());
   });
@@ -15,7 +18,7 @@ module.exports = ((items) => {
     .all((req, res, next) => { // middleware example
       (async function getPerson() {
         const { id } = req.params;
-        const person = await SqlUtil.getSinglePerson(id);
+        const person = await SqlUtils.getSinglePerson(id);
         req.person = person;
         next();
       }());

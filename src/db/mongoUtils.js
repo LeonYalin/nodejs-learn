@@ -10,12 +10,12 @@ class MongoUtils {
   }
 
   static createConnection() {
-    const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
-    // const url = 'mongodb://localhost:27017/';
+    // const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
+    const url = 'mongodb://localhost:27017/';
     return new MongoClient(url);
   }
 
-  static createPersonsCollection() {
+  static createDBData() {
     return new Promise((resolve, reject) => {
       (async function createPersons() {
         const connection = MongoUtils.createConnection();
@@ -60,7 +60,7 @@ class MongoUtils {
     });
   }
 
-  static loadAllPersons() {
+  static loadPersonsData() {
     return new Promise((resolve, reject) => {
       (async function loadAll() {
         const connection = MongoUtils.createConnection();
@@ -68,6 +68,23 @@ class MongoUtils {
           await connection.connect();
           const db = connection.db(DB_NAME);
           const response = await db.collection(COLL_NAME).insertMany(mongoPersons);
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+        connection.close();
+      }());
+    });
+  }
+
+  static getAllPersons() {
+    return new Promise((resolve, reject) => {
+      (async function getPersons() {
+        const connection = MongoUtils.createConnection();
+        try {
+          await connection.connect();
+          const db = connection.db(DB_NAME);
+          const response = await db.collection(COLL_NAME).find({}).toArray();
           resolve(response);
         } catch (e) {
           reject(e);

@@ -9,7 +9,7 @@ const sqlPersons = [{
 }];
 
 const mongoPersons = [{
-  firstName: 'The', lastName: 'Aladdin', birthday: new Date('1200-01-15'), age: 20, gender: genders.M, img: '/img/alddin.png',
+  firstName: 'The', lastName: 'Aladdin', birthday: new Date('1200-01-15'), age: 20, gender: genders.M, img: '/img/aladdin.png',
 }, {
   firstName: 'Princess', lastName: 'Jasmine', birthday: new Date('1196-11-18'), age: 19, gender: genders.F, img: '/img/jasmine.png',
 }, {

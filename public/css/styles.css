@@ -1,3 +1,19 @@
+.fl {
+    display: flex;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+fl1 {
+    flex: 1;
+}
+
 #index-page {
     display: flex;
     flex-direction: column;
@@ -28,15 +44,31 @@
     color: yellowgreen;
 }
 
-#home-page .item {
-    padding: 10px 10px;
-    border-bottom: 1px solid lightgrey;
-    margin: 0 20px;
+#persons-page .persons-list {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#home-page .item-img {
-    width: 100px;
+#persons-page .person {
+    width: 500px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#persons-page .person-img {
+    width: 160px;
     height: auto;
+}
+
+#persons-page .person-info {
+    margin-left: 20px;
+}
+
+#persons-page .person-info-title {
+    color: lightslategrey;
 }
 
 #item-page {
@@ -63,10 +95,7 @@
     padding: 20px;
     border: 1px solid lightgray;
     border-radius: 4px;
-}
-
-#admin-page .search-persons-block {
-    flex: 1;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 #admin-page .persons-blocks-wrapper {

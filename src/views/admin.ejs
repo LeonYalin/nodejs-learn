@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <% include partials/head.ejs %>
+  <% include partials/head.ejs %>
 </head>
+
 <body id="admin-page">
-  
+
   <!-- ADD NEW PERSON -->
   <div class="person-wrapper-block">
     <form action="/admin/add" method="post">
@@ -25,7 +27,8 @@
       </div>
       <div class="form-group">
         <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" placeholder="Enter age" name="age" value="0" min="0" max="120" required>
+        <input type="number" class="form-control" id="age" placeholder="Enter age" name="age" value="0" min="0"
+          max="120" required>
       </div>
       <div class="form-group">
         <label for="gender">Gender</label>
@@ -42,24 +45,40 @@
     </form>
   </div>
 
-  <!-- DIVIDER -->
-  <div class="divider"></div>
+  <div class="persons-blocks-wrapper ml20">
 
-  <div class="persons-blocks-wrapper">
-    <!-- LOAD PERSONS FROM JSON -->
+    <!-- CREATE DATABASES -->
     <div class="person-wrapper-block">
-      <form action="/admin/loadAll" method="post">
-        <div class="form-group">
-          <h1>Load persons from JSON</h1>
-        </div>
-        <button type="submit" class="btn btn-primary">Load</button>
-      </form>
+      <div class="form-group">
+        <h1>Create databases</h1>
+      </div>
+      <div class="fl">
+        <form action="/admin/createMySqlDB" method="post">
+          <button type="submit" class="btn btn-primary">Create MySql database</button>
+        </form>
+        <form class="ml20" action="/admin/createMongoDB" method="post">
+          <button type="submit" class="btn btn-primary">Create MongoDB database</button>
+        </form>
+      </div>
     </div>
 
-    <div class="hdivider"></div>
+    <!-- LOAD PERSONS DATA -->
+    <div class="person-wrapper-block mt20">
+      <div class="form-group">
+        <h1>Load persons data</h1>
+      </div>
+      <div class="fl">
+        <form action="/admin/loadToMySql" method="post">
+          <button type="submit" class="btn btn-primary">Load MySql data</button>
+        </form>
+        <form class="ml20" action="/admin/loadToMongo" method="post">
+          <button type="submit" class="btn btn-primary">Load MongoDB data</button>
+        </form>
+      </div>
+    </div>
 
-    <!-- SEARCH PERSONS FROM JSON -->
-    <div class="person-wrapper-block search-persons-block">
+    <!-- SEARCH PERSONS -->
+    <div class="person-wrapper-block mt20">
       <form action="/admin/search" method="post">
         <div class="form-group">
           <h1>Search persons</h1>
@@ -77,4 +96,5 @@
   </div>
 
 </body>
+
 </html>

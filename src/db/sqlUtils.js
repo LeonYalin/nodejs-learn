@@ -7,6 +7,14 @@ class SqlUtils {
     this.connection = null;
   }
 
+  static createConnectionNoDB() {
+    return mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: 'root',
+    });
+  }
+
   static createConnection() {
     return mysql.createConnection({
       host: 'localhost',
@@ -81,10 +89,24 @@ class SqlUtils {
     return new Promise((resolve, reject) => {
       (async function createData() {
         try {
-          const connection = await SqlUtils.createConnection();
+          const connection = await SqlUtils.createConnectionNoDB();
           await SqlUtils.createDBQuery(connection);
           await SqlUtils.useDBQuery(connection);
           await SqlUtils.createPersonsTableQuery(connection);
+          await connection.end();
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }());
+    });
+  }
+
+  static loadPersonsData() {
+    return new Promise((resolve, reject) => {
+      (async function createData() {
+        try {
+          const connection = await SqlUtils.createConnection();
           await SqlUtils.fillPersonsTableWithDataQuery(connection, sqlPersons);
           await connection.end();
           resolve();

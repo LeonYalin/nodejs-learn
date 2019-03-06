@@ -23,16 +23,6 @@ app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/persons', personsRouter);
 
-// mysql
-const SqlUtils = require('./src/db/sqlUtils');
-
-SqlUtils.createDBData();
-
-// mongodb
-const MongoUtils = require('./src/db/mongoUtils');
-
-MongoUtils.createPersonsCollection();
-
 app.use(morgan('tiny')); // log network requests
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css')));
