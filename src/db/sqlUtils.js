@@ -1,6 +1,6 @@
 const mysql = require('promise-mysql');
 
-const { persons } = require('../fixtures/persons');
+const { sqlPersons } = require('../fixtures/persons');
 
 class SqlUtils {
   SqlUtils() {
@@ -85,7 +85,7 @@ class SqlUtils {
           await SqlUtils.createDBQuery(connection);
           await SqlUtils.useDBQuery(connection);
           await SqlUtils.createPersonsTableQuery(connection);
-          await SqlUtils.fillPersonsTableWithDataQuery(connection, persons);
+          await SqlUtils.fillPersonsTableWithDataQuery(connection, sqlPersons);
           await connection.end();
           resolve();
         } catch (e) {

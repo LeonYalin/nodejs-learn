@@ -53,6 +53,8 @@
 }
 
 #admin-page {
+    display: flex;
+    justify-content: center;
     margin: 20px;
 }
 
@@ -61,4 +63,21 @@
     padding: 20px;
     border: 1px solid lightgray;
     border-radius: 4px;
+}
+
+#admin-page .search-persons-block {
+    flex: 1;
+}
+
+#admin-page .persons-blocks-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+#admin-page .divider {
+    width: 20px;
+}
+
+#admin-page .hdivider {
+    height: 20px;
 }

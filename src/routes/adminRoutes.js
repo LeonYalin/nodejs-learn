@@ -23,7 +23,38 @@ adminRouter.route('/add').post((req, res) => {
       await MongoUtils.addPerson(person);
       res.send('Person added successfully');
     } catch (e) {
-      res.sendStatus(400).send(e);
+      let msg = e;
+      if (e.code === 11000) { // duplicate rows
+        msg = 'Person already exists';
+      }
+      res.status(400).send(msg);
+    }
+  }());
+});
+
+adminRouter.route('/loadAll').post((req, res) => {
+  (async function loadAll() {
+    try {
+      await MongoUtils.loadAllPersons();
+      res.send('Persons loaded successfully');
+    } catch (e) {
+      let msg = e;
+      if (e.code === 11000) { // duplicate rows
+        msg = 'Persons were already loaded';
+      }
+      res.status(400).send(msg);
+    }
+  }());
+});
+
+adminRouter.route('/search').post((req, res) => {
+  const { name } = req.body;
+  (async function search() {
+    try {
+      const persons = await MongoUtils.searchPersons(name);
+      res.json(persons);
+    } catch (e) {
+      res.status(400).send(e);
     }
   }());
 });

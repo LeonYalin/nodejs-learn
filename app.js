@@ -39,7 +39,7 @@ app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap',
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'js')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist')));
 
-
+app.set('json spaces', 2);
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 

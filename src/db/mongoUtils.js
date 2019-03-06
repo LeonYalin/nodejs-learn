@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb');
+const { mongoPersons } = require('../fixtures/persons');
 
 const DB_NAME = 'node_learn';
 const COLL_NAME = 'persons';
@@ -37,6 +38,7 @@ class MongoUtils {
         } catch (e) {
           reject(e);
         }
+        connection.close();
       }());
     });
   }
@@ -44,8 +46,8 @@ class MongoUtils {
   static addPerson(person) {
     return new Promise((resolve, reject) => {
       (async function addPerson() {
+        const connection = MongoUtils.createConnection();
         try {
-          const connection = MongoUtils.createConnection();
           await connection.connect();
           const db = connection.db(DB_NAME);
           const response = await db.collection(COLL_NAME).insertOne(person);
@@ -53,9 +55,54 @@ class MongoUtils {
         } catch (e) {
           reject(e);
         }
+        connection.close();
+      }());
+    });
+  }
+
+  static loadAllPersons() {
+    return new Promise((resolve, reject) => {
+      (async function loadAll() {
+        const connection = MongoUtils.createConnection();
+        try {
+          await connection.connect();
+          const db = connection.db(DB_NAME);
+          const response = await db.collection(COLL_NAME).insertMany(mongoPersons);
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+        connection.close();
+      }());
+    });
+  }
+
+  static searchPersons(name) {
+    return new Promise((resolve, reject) => {
+      (async function search() {
+        const connection = MongoUtils.createConnection();
+        try {
+          await connection.connect();
+          const db = connection.db(DB_NAME);
+          let response = null;
+          const criteria = {};
+          if (name) {
+            criteria.$or = [
+              { firstName: { $regex: name, $options: '-i' } },
+              { lastName: { $regex: name, $options: '-i' } },
+            ];
+          }
+
+          response = await db.collection(COLL_NAME).find(criteria).toArray();
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+        connection.close();
       }());
     });
   }
 }
+
 
 module.exports = MongoUtils;

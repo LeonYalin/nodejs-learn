@@ -42,6 +42,39 @@
     </form>
   </div>
 
+  <!-- DIVIDER -->
+  <div class="divider"></div>
+
+  <div class="persons-blocks-wrapper">
+    <!-- LOAD PERSONS FROM JSON -->
+    <div class="person-wrapper-block">
+      <form action="/admin/loadAll" method="post">
+        <div class="form-group">
+          <h1>Load persons from JSON</h1>
+        </div>
+        <button type="submit" class="btn btn-primary">Load</button>
+      </form>
+    </div>
+
+    <div class="hdivider"></div>
+
+    <!-- SEARCH PERSONS FROM JSON -->
+    <div class="person-wrapper-block search-persons-block">
+      <form action="/admin/search" method="post">
+        <div class="form-group">
+          <h1>Search persons</h1>
+        </div>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search persons" name="name">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
 
 </body>
 </html>
