@@ -63,25 +63,30 @@ fl1 {
     height: auto;
 }
 
-#persons-page .person-info {
+#persons-page .person-info, #person-page .person-info {
     margin-left: 20px;
 }
 
-#persons-page .person-info-title {
+#persons-page .person-info-title, #person-page .person-info-title {
     color: lightslategrey;
 }
 
-#item-page {
+#person-page {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
     align-items: center;
 }
 
-#item-page .item-title {
-    font-size: 40px;
+#person-page .person-title {
+    font-size: 60px;
     padding-bottom: 10px;
+}
+
+#person-page .person-img {
+    max-height: 600px;
 }
 
 #admin-page {

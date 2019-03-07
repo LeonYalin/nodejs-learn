@@ -18,8 +18,13 @@ module.exports = ((items) => {
     .all((req, res, next) => { // middleware example
       (async function getPerson() {
         const { id } = req.params;
-        const person = await SqlUtils.getSinglePerson(id);
-        req.person = person;
+        let sqlPerson = null;
+        let mongoPerson = null;
+        sqlPerson = await SqlUtils.getSinglePerson(id);
+        if (!sqlPerson) {
+          mongoPerson = await MongoUtils.getSinglePerson(id);
+        }
+        req.person = sqlPerson || mongoPerson;
         next();
       }());
     })

@@ -14,7 +14,7 @@
                 <div><a class="link" href="<%= '/persons/' + persons[i].id %>"><%= persons[i].firstName + ' ' + persons[i].lastName %></a></div>
                 <div class="person-birthday"><span class="person-info-title">Date of birth:</span> <%= new Date(persons[i].birthday).toLocaleDateString("en-US") %></div>
                 <div class="person-age"><span class="person-info-title">Age:</span> <%= persons[i].age %></div>
-                <div class="person-gender"><span class="person-info-title">Gender:</span> <%= persons[i].gender %></div>
+                <div class="person-gender"><span class="person-info-title">Gender:</span> <%= persons[i].gender === 'm' ? 'Male' : 'Female' %></div>
             </div>
         </div>
         <% } %>

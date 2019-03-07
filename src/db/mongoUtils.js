@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 const { mongoPersons } = require('../fixtures/persons');
 
 const DB_NAME = 'node_learn';
@@ -10,8 +10,8 @@ class MongoUtils {
   }
 
   static createConnection() {
-    // const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
-    const url = 'mongodb://localhost:27017/';
+    const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
+    // const url = 'mongodb://localhost:27017/';
     return new MongoClient(url);
   }
 
@@ -77,6 +77,23 @@ class MongoUtils {
     });
   }
 
+  static getSinglePerson(id) {
+    return new Promise((resolve, reject) => {
+      (async function getPersons() {
+        const connection = MongoUtils.createConnection();
+        try {
+          await connection.connect();
+          const db = connection.db(DB_NAME);
+          const person = await db.collection(COLL_NAME).findOne({ _id: new ObjectID(id) });
+          resolve(person);
+        } catch (e) {
+          reject(e);
+        }
+        connection.close();
+      }());
+    });
+  }
+
   static getAllPersons() {
     return new Promise((resolve, reject) => {
       (async function getPersons() {
@@ -84,8 +101,11 @@ class MongoUtils {
         try {
           await connection.connect();
           const db = connection.db(DB_NAME);
-          const response = await db.collection(COLL_NAME).find({}).toArray();
-          resolve(response);
+          const persons = await db.collection(COLL_NAME).find({}).toArray();
+          for (const person of persons) {
+            person.id = person._id.toString();
+          }
+          resolve(persons);
         } catch (e) {
           reject(e);
         }

@@ -3,8 +3,17 @@
 <head>
     <% include partials/head.ejs %>
 </head>
-<body id="item-page">
-    <div class="item-title"><%=person.firstName + ' ' + person.lastName %></div>
-    <img class="item-img" src="<%=person.img%>">
+<body id="person-page">
+    <div>
+        <div class="fl">
+            <img class="person-img" src="<%=person.img%>">
+            <div class="person-info">
+                <div class="person-title"><%=person.firstName + ' ' + person.lastName %></div>
+                <div class="person-birthday"><span class="person-info-title">Date of birth:</span> <%= new Date(person.birthday).toLocaleDateString("en-US") %></div>
+                <div class="person-age"><span class="person-info-title">Age:</span> <%= person.age %></div>
+                <div class="person-gender"><span class="person-info-title">Gender:</span> <%= person.gender === 'm' ? 'Male' : 'Female' %></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

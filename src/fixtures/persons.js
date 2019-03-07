@@ -15,7 +15,7 @@ const mongoPersons = [{
 }, {
   firstName: 'The', lastName: 'Genie', birthday: new Date('1000-01-01'), age: 1000, gender: genders.M, img: '/img/genie.png',
 }, {
-  firstName: 'The', lastName: 'Abu', birthday: new Date('1221-14-21'), age: 8, gender: genders.F, img: '/img/abu.jpg',
+  firstName: 'The', lastName: 'Abu', birthday: new Date('1221-14-21'), age: 8, gender: genders.F, img: '/img/abu.png',
 }];
 
 module.exports = { genders, sqlPersons, mongoPersons };
