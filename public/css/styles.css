@@ -44,6 +44,14 @@ fl1 {
     color: yellowgreen;
 }
 
+#persons-page .no-persons-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 24px;
+}
+
 #persons-page .persons-list {
     display: flex;
     flex-wrap: wrap;
@@ -115,3 +123,4 @@ fl1 {
 #admin-page .hdivider {
     height: 20px;
 }
+

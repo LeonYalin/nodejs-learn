@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', (() => {
   const autoCompl = new autoComplete({
     selector: '#search-persons',
     minChars: 0,
-    source: (term, successCallback) => {
-      successCallback(formattedResults);
+    source: (term, resolve) => {
+      resolve(formattedResults);
     },
     onSelect: (event, term, item) => {
       event.preventDefault();
       const [firstName, lastName] = term.split(' ');
       const person = results.find(i => i.firstName === firstName && i.lastName === lastName);
-      window.location.href = `${window.location.origin}/persons/${person._id}`;
+      window.location.href = `${window.location.origin}/persons/${person._id || person.id}`;
     },
   });
 }), false);
