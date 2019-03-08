@@ -3,6 +3,9 @@
 
 <head>
   <% include partials/head.ejs %>
+  <link rel="stylesheet" href="/css/auto-complete.css">
+  <script src="/js/auto-complete.min.js"></script>
+  <script src="/js/adminHelper.js"></script>
 </head>
 
 <body id="admin-page">
@@ -84,17 +87,12 @@
           <h1>Search persons</h1>
         </div>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search persons" name="name">
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">Search</button>
-          </div>
+          <input type="text" id="search-persons" class="form-control" placeholder="Search persons" name="name">
         </div>
       </form>
     </div>
 
-
   </div>
-
 </body>
 
 </html>

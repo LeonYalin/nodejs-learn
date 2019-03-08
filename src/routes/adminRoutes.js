@@ -97,6 +97,7 @@ adminRouter.route('/search').post((req, res) => {
   const { name } = req.body;
   (async function search() {
     try {
+      // TODO: add searchPersons from MySql
       const persons = await MongoUtils.searchPersons(name);
       res.json(persons);
     } catch (e) {
