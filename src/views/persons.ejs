@@ -19,8 +19,10 @@
         </div>
         <% } %>
     </div>
+    <% if (!persons.length) { %>
     <div class="no-persons-msg">
         No persons found. You can add persons from&nbsp;<a href="/admin">admin</a>&nbsp;page. 
     </div>
+    <% } %>
 </body>
 </html>

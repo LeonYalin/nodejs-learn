@@ -124,3 +124,17 @@ fl1 {
     height: 20px;
 }
 
+#signup-page {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+#signup-page .signup-form {
+    width: 500px;
+    padding: 20px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
