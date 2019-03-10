@@ -11,8 +11,8 @@ class MongoUtils {
   }
 
   static createConnection() {
-    // const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
-    const url = 'mongodb://localhost:27017/';
+    const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
+    // const url = 'mongodb://localhost:27017/';
     return new MongoClient(url);
   }
 
@@ -28,8 +28,8 @@ class MongoUtils {
 
         try {
           const db = connection.db(DB_NAME);
-          const personsCollectionExists = await db.listCollections({ name: PERSONS_COLL_NAME }).hasNext();
-          if (!personsCollectionExists) {
+          const personsCollExists = await db.listCollections({ name: PERSONS_COLL_NAME }).hasNext();
+          if (!personsCollExists) {
             const collection = await db.createCollection(PERSONS_COLL_NAME);
             await collection.createIndex({
               firstName: 1, lastName: 1, birthday: 1, age: 1, gender: 1,
@@ -78,14 +78,40 @@ class MongoUtils {
     });
   }
 
-  static getSinglePerson(id) {
+  static getSinglePerson({ id }) {
     return new Promise((resolve, reject) => {
       (async function getPersons() {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
           const db = connection.db(DB_NAME);
-          const person = await db.collection(PERSONS_COLL_NAME).findOne({ _id: new ObjectID(id) });
+          const criteria = {};
+          if (id) {
+            criteria._id = new ObjectID(id);
+          }
+          const person = await db.collection(PERSONS_COLL_NAME).findOne(criteria);
+          resolve(person);
+        } catch (e) {
+          reject(e);
+        }
+        connection.close();
+      }());
+    });
+  }
+
+  static getSingleUser({ username, password }) {
+    return new Promise((resolve, reject) => {
+      (async function getPersons() {
+        const connection = MongoUtils.createConnection();
+        try {
+          await connection.connect();
+          const db = connection.db(DB_NAME);
+          const criteria = {};
+          if (username && password) {
+            criteria.username = username;
+            criteria.password = password;
+          }
+          const person = await db.collection(USERS_COLL_NAME).findOne(criteria);
           resolve(person);
         } catch (e) {
           reject(e);

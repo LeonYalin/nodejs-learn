@@ -1,8 +1,12 @@
 const passport = require('passport');
 require('./strategies/local.strategy')();
 
-function authenticate() {
-  passport.authenticate('local', { failureRedirect: '/login' });
+function authenticate(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect('/users/not-authorized');
+  }
 }
 
 function passportConfig(app) {

@@ -4,8 +4,11 @@ const chalk = require('chalk');
 const SqlUtils = require('../db/sqlUtils');
 const MongoUtils = require('../db/mongoUtils');
 const Person = require('../entities/Person');
+const { authenticate } = require('../config/passportConfig');
 
 const adminRouter = express.Router();
+
+adminRouter.use(authenticate);
 
 adminRouter.route('/')
   .get((req, res) => {
@@ -104,7 +107,6 @@ adminRouter.route('/search')
     const { name } = req.body;
     (async function search() {
       try {
-        // TODO: add searchPersons from MySql
         const sqlPersons = await SqlUtils.getAllPersons();
         const mongoPersons = await MongoUtils.searchPersons(name);
         const persons = [...sqlPersons, ...mongoPersons];

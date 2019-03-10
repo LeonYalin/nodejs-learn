@@ -26,12 +26,12 @@ const personsItems = require('./src/routes/personsItems');
 const personsRouter = require('./src/routes/personsRoutes')(personsItems);
 const indexLinks = require('./src/routes/indexLinks');
 const indexRouter = require('./src/routes/indexRoutes')(indexLinks);
-const authRouter = require('./src/routes/authRoutes');
+const usersRouter = require('./src/routes/usersRoutes');
 
 app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/persons', personsRouter);
-app.use('/users', authRouter);
+app.use('/users', usersRouter);
 
 app.use(morgan('tiny')); // log network requests
 app.use(express.static(path.join(__dirname, 'public')));

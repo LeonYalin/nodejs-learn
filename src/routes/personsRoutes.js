@@ -1,9 +1,12 @@
 const express = require('express');
 const SqlUtils = require('../db/sqlUtils');
 const MongoUtils = require('../db/mongoUtils');
+const { authenticate } = require('../config/passportConfig');
 
-module.exports = ((items) => {
+module.exports = (() => {
   const personsRouter = express.Router();
+
+  personsRouter.use(authenticate);
 
   personsRouter.route('/')
     .get((req, res) => {
@@ -23,7 +26,7 @@ module.exports = ((items) => {
         let mongoPerson = null;
         sqlPerson = await SqlUtils.getSinglePerson(id);
         if (!sqlPerson) {
-          mongoPerson = await MongoUtils.getSinglePerson(id);
+          mongoPerson = await MongoUtils.getSinglePerson({ id });
         }
         req.person = sqlPerson || mongoPerson;
         next();

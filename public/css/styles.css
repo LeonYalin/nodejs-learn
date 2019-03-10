@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.m20 {
+    margin: 20px;
+}
+
 .ml20 {
     margin-left: 20px;
 }
@@ -79,7 +83,7 @@ fl1 {
     color: lightslategrey;
 }
 
-#person-page {
+#person-page, #not-authorized-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -124,17 +128,19 @@ fl1 {
     height: 20px;
 }
 
-#signup-page {
+#users-page {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin: 20px;
 }
 
-#signup-page .signup-form {
+#users-page .signup-form {
     width: 500px;
     padding: 20px;
     border: 1px solid lightgray;
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
 
