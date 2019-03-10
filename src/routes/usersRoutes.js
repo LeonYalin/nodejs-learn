@@ -1,32 +1,18 @@
 const express = require('express');
-const passport = require('passport');
-const MongoUtils = require('../db/mongoUtils');
+const UsersController = require('../controllers/usersController');
 
 const usersRouter = express.Router();
 
 usersRouter.route('/')
-  .get((req, res) => {
-    res.render('users');
-  });
+  .get(UsersController.getPage);
 
-usersRouter.route('/signup').post((req, res) => {
-  (async function createUser() {
-    const user = await MongoUtils.createUser(req.body);
-    req.login(user, () => {
-      res.redirect('/');
-    });
-  }());
-});
+usersRouter.route('/signup')
+  .post(UsersController.signup);
 
 usersRouter.route('/signin')
-  .post(passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/users/not-authorized',
-  }));
+  .post(UsersController.signin);
 
 usersRouter.route('/not-authorized')
-  .get((req, res) => {
-    res.render('not-authorized');
-  });
+  .get(UsersController.notAuthorized);
 
 module.exports = usersRouter;

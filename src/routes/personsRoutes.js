@@ -1,7 +1,6 @@
 const express = require('express');
-const SqlUtils = require('../db/sqlUtils');
-const MongoUtils = require('../db/mongoUtils');
 const { authenticate } = require('../config/passportConfig');
+const PersonsCotroller = require('../controllers/personsController');
 
 module.exports = (() => {
   const personsRouter = express.Router();
@@ -9,32 +8,11 @@ module.exports = (() => {
   personsRouter.use(authenticate);
 
   personsRouter.route('/')
-    .get((req, res) => {
-      (async function getPersons() {
-        const sqlPersons = await SqlUtils.getAllPersons();
-        const mongoPersons = await MongoUtils.getAllPersons();
-        const persons = [...sqlPersons, ...mongoPersons];
-        res.render('persons', { persons });
-      }());
-    });
+    .get(PersonsCotroller.getPage);
 
   personsRouter.route('/:id')
-    .all((req, res, next) => { // middleware example
-      (async function getPerson() {
-        const { id } = req.params;
-        let sqlPerson = null;
-        let mongoPerson = null;
-        sqlPerson = await SqlUtils.getSinglePerson(id);
-        if (!sqlPerson) {
-          mongoPerson = await MongoUtils.getSinglePerson({ id });
-        }
-        req.person = sqlPerson || mongoPerson;
-        next();
-      }());
-    })
-    .get((req, res) => {
-      res.render('person', { person: req.person });
-    });
+    .all(PersonsCotroller.getPersonByIdMiddleware)
+    .get(PersonsCotroller.getPersonsById);
 
   return personsRouter;
 });

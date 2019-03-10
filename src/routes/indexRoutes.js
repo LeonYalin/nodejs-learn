@@ -1,20 +1,15 @@
 const express = require('express');
+const IndexController = require('../controllers/indexController');
 
 module.exports = ((indexLinks) => {
   const indexRouter = express.Router();
+  const ctrl = new IndexController(indexLinks);
 
   indexRouter.route('/')
-    .get((req, res) => {
-      res.render('index', {
-        title: 'Hello Node!',
-        links: indexLinks,
-      });
-    });
+    .get(ctrl.getPage.bind(ctrl));
 
   indexRouter.route('/')
-    .post((req, res) => {
-      res.send('Hello from Express:POST');
-    });
+    .post(IndexController.postPage);
 
   return indexRouter;
 });
