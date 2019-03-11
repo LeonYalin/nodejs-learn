@@ -1,6 +1,7 @@
 const passport = require('passport');
 const debug = require('debug')('app:usersController');
 const MongoUtils = require('../db/mongoUtils');
+const usersService = require('../services/usersService');
 
 class UsersController {
   static getPage(req, res) {
@@ -29,6 +30,17 @@ class UsersController {
   static notAuthorized(req, res) {
     debug('notAuthorized');
     res.render('not-authorized');
+  }
+
+  static getOnlineUsers(req, res) {
+    (async function getUsers() {
+      try {
+        const response = await usersService.getOnlineUsers();
+        res.json(response.data);
+      } catch (e) {
+        res.status(400).send(e);
+      }
+    }());
   }
 }
 

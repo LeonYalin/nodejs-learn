@@ -15,4 +15,7 @@ usersRouter.route('/signin')
 usersRouter.route('/not-authorized')
   .get(UsersController.notAuthorized);
 
+usersRouter.route('/all')
+  .get(UsersController.getOnlineUsers);
+
 module.exports = usersRouter;

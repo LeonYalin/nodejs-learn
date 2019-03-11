@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yeltsinGit/nodejs-learn#readme",
   "dependencies": {
+    "axios": "0.18.0",
     "body-parser": "1.18.3",
     "bootstrap": "4.3.1",
     "chalk": "2.4.2",
