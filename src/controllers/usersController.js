@@ -18,12 +18,12 @@ class UsersController {
     }());
   }
 
-  static signin(req, res) {
+  static signin(req, res, next) {
     debug('signin', req.body, res.locals);
     passport.authenticate('local', {
       successRedirect: '/',
       failureRedirect: '/users/not-authorized',
-    });
+    })(req, res, next);
   }
 
   static notAuthorized(req, res) {
