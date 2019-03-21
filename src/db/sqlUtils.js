@@ -41,18 +41,18 @@ class SqlUtils {
   }
 
   static createDBQuery(connection) {
-    const query = 'CREATE DATABASE IF NOT EXISTS node_learn';
+    const query = `CREATE DATABASE IF NOT EXISTS ${mysqlConfig.database}`;
     return connection.query(query);
   }
 
   static useDBQuery(connection) {
-    const query = 'USE node_learn';
+    const query = `USE ${mysqlConfig.database}`;
     return connection.query(query);
   }
 
   static createPersonsTableQuery(connection) {
     const query = `
-    CREATE TABLE IF NOT EXISTS persons (
+    CREATE TABLE IF NOT EXISTS ${mysqlConfig.personsTableName} (
       id INT AUTO_INCREMENT PRIMARY KEY,
       firstName VARCHAR(20) NOT NULL,
       lastName VARCHAR(20) NOT NULL,
@@ -66,7 +66,7 @@ class SqlUtils {
   }
 
   static fillPersonsTableWithDataQuery(connection, personsToStore) {
-    let query = 'INSERT IGNORE INTO persons (firstName, lastName, birthday, age, gender, img) VALUES';
+    let query = `INSERT IGNORE INTO ${mysqlConfig.personsTableName} (firstName, lastName, birthday, age, gender, img) VALUES`;
     for (const person of personsToStore) {
       query += ` ('${person.firstName}', '${person.lastName}', '${SqlUtils.getSqlDate(person.birthday)}', ${person.age}, '${person.gender}', '${person.img}'),`;
     }
@@ -78,12 +78,12 @@ class SqlUtils {
   }
 
   static getAllPersonsQuery(connection) {
-    const query = 'SELECT * FROM persons';
+    const query = `SELECT * FROM ${mysqlConfig.personsTableName}`;
     return connection.query(query);
   }
 
   static getSinglePersonQuery(connection, id) {
-    const query = `SELECT * FROM persons WHERE id = ${id}`;
+    const query = `SELECT * FROM ${mysqlConfig.personsTableName} WHERE id = ${id}`;
     return connection.query(query);
   }
 

@@ -3,9 +3,6 @@ const { mongoPersons } = require('../fixtures/persons');
 const dbConfig = require('./dbConfig');
 
 const mongoConfig = dbConfig.getMongoConfig();
-const DB_NAME = 'node_learn';
-const PERSONS_COLL_NAME = 'persons';
-const USERS_COLL_NAME = 'users';
 
 class MongoUtils {
   MongoUtils() {
@@ -27,10 +24,10 @@ class MongoUtils {
         }
 
         try {
-          const db = connection.db(DB_NAME);
-          const personsCollExists = await db.listCollections({ name: PERSONS_COLL_NAME }).hasNext();
+          const db = connection.db(mongoConfig.dbName);
+          const personsCollExists = await db.listCollections({ name: mongoConfig.personsCollName }).hasNext();
           if (!personsCollExists) {
-            const collection = await db.createCollection(PERSONS_COLL_NAME);
+            const collection = await db.createCollection(mongoConfig.personsCollName);
             await collection.createIndex({
               firstName: 1, lastName: 1, birthday: 1, age: 1, gender: 1,
             }, { unique: true });
@@ -50,8 +47,8 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
-          const response = await db.collection(PERSONS_COLL_NAME).insertOne(person);
+          const db = connection.db(mongoConfig.dbName);
+          const response = await db.collection(mongoConfig.personsCollName).insertOne(person);
           resolve(response);
         } catch (e) {
           reject(e);
@@ -67,8 +64,8 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
-          const response = await db.collection(PERSONS_COLL_NAME).insertMany(mongoPersons);
+          const db = connection.db(mongoConfig.dbName);
+          const response = await db.collection(mongoConfig.personsCollName).insertMany(mongoPersons);
           resolve(response);
         } catch (e) {
           reject(e);
@@ -84,12 +81,12 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
+          const db = connection.db(mongoConfig.dbName);
           const criteria = {};
           if (id) {
             criteria._id = new ObjectID(id);
           }
-          const person = await db.collection(PERSONS_COLL_NAME).findOne(criteria);
+          const person = await db.collection(mongoConfig.personsCollName).findOne(criteria);
           resolve(person);
         } catch (e) {
           reject(e);
@@ -105,13 +102,13 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
+          const db = connection.db(mongoConfig.dbName);
           const criteria = {};
           if (username && password) {
             criteria.username = username;
             criteria.password = password;
           }
-          const person = await db.collection(USERS_COLL_NAME).findOne(criteria);
+          const person = await db.collection(mongoConfig.usersCollName).findOne(criteria);
           resolve(person);
         } catch (e) {
           reject(e);
@@ -128,8 +125,8 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
-          const persons = await db.collection(PERSONS_COLL_NAME).find({}).toArray();
+          const db = connection.db(mongoConfig.dbName);
+          const persons = await db.collection(mongoConfig.personsCollName).find({}).toArray();
           for (const person of persons) {
             person.id = person._id.toString();
           }
@@ -148,7 +145,7 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
+          const db = connection.db(mongoConfig.dbName);
           let response = null;
           const criteria = {};
           if (name) {
@@ -158,7 +155,7 @@ class MongoUtils {
             ];
           }
 
-          response = await db.collection(PERSONS_COLL_NAME).find(criteria).toArray();
+          response = await db.collection(mongoConfig.personsCollName).find(criteria).toArray();
           resolve(response);
         } catch (e) {
           reject(e);
@@ -175,8 +172,8 @@ class MongoUtils {
         const connection = MongoUtils.createConnection();
         try {
           await connection.connect();
-          const db = connection.db(DB_NAME);
-          const response = await db.collection(USERS_COLL_NAME).insertOne(user);
+          const db = connection.db(mongoConfig.dbName);
+          const response = await db.collection(mongoConfig.usersCollName).insertOne(user);
           resolve(response.ops[0]);
         } catch (e) {
           reject(e);
