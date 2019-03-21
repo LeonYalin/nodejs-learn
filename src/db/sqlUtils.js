@@ -1,6 +1,8 @@
 const mysql = require('promise-mysql');
-
 const { sqlPersons } = require('../fixtures/persons');
+const dbConfig = require('./dbConfig');
+
+const mysqlConfig = dbConfig.getMySqlConfig();
 
 class SqlUtils {
   SqlUtils() {
@@ -9,18 +11,18 @@ class SqlUtils {
 
   static createConnectionNoDB() {
     return mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
+      host: mysqlConfig.host,
+      user: mysqlConfig.user,
+      password: mysqlConfig.password,
     });
   }
 
   static createConnection() {
     return mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'node_learn',
+      host: mysqlConfig.host,
+      user: mysqlConfig.user,
+      password: mysqlConfig.password,
+      database: mysqlConfig.database,
     });
   }
 

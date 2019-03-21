@@ -1,6 +1,8 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const { mongoPersons } = require('../fixtures/persons');
+const dbConfig = require('./dbConfig');
 
+const mongoConfig = dbConfig.getMongoConfig();
 const DB_NAME = 'node_learn';
 const PERSONS_COLL_NAME = 'persons';
 const USERS_COLL_NAME = 'users';
@@ -11,9 +13,7 @@ class MongoUtils {
   }
 
   static createConnection() {
-    const url = 'mongodb://ayala:q1w2e3r4!@localhost:27017/';
-    // const url = 'mongodb://localhost:27017/';
-    return new MongoClient(url);
+    return new MongoClient(mongoConfig.url);
   }
 
   static createDBData() {
