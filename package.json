@@ -1,7 +1,7 @@
 {
   "name": "nodejs-learn",
   "version": "1.0.0",
-  "description": "",
+  "description": "Full-stack development with nodeJs is a project for exploring nodeJs capabilites and usages in a full-stack development.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/yeltsinGit/nodejs-learn.git"
   },
-  "author": "",
+  "author": "Leon Yalin",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/yeltsinGit/nodejs-learn/issues"
