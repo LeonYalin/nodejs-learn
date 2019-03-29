@@ -1,7 +1,7 @@
 const passport = require('passport');
 const debug = require('debug')('app:usersController');
 const MongoUtils = require('../db/mongoUtils');
-const usersService = require('../services/usersService');
+const usersService = require('../services/users.service');
 
 class UsersController {
   static getPage(req, res) {

@@ -1,5 +1,5 @@
 const express = require('express');
-const IndexController = require('../controllers/indexController');
+const IndexController = require('../controllers/index.controller');
 
 module.exports = ((indexLinks) => {
   const indexRouter = express.Router();

@@ -1,6 +1,6 @@
 const express = require('express');
-const { authenticate } = require('../config/passportConfig');
-const AdminController = require('../controllers/adminController');
+const { authenticate } = require('../config/passport.config');
+const AdminController = require('../controllers/admin.controller');
 
 const adminRouter = express.Router();
 

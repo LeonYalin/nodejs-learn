@@ -1,6 +1,6 @@
 const express = require('express');
-const { authenticate } = require('../config/passportConfig');
-const PersonsCotroller = require('../controllers/personsController');
+const { authenticate } = require('../config/passport.config');
+const PersonsCotroller = require('../controllers/persons.controller');
 
 module.exports = (() => {
   const personsRouter = express.Router();

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/yeltsinGit/nodejs-learn#readme",
   "dependencies": {
+    "amqplib": "0.5.3",
     "axios": "0.18.0",
     "body-parser": "1.18.3",
     "bootstrap": "4.3.1",
@@ -31,12 +32,12 @@
     "express-session": "1.15.6",
     "jquery": "3.3.1",
     "mongodb": "3.1.13",
-    "morgan": "1.9.1",
     "nodemon": "1.18.10",
     "passport": "0.4.0",
     "passport-local": "1.0.0",
     "promise-mysql": "3.3.1",
-    "pug": "2.0.3"
+    "pug": "2.0.3",
+    "socket.io": "2.2.0"
   },
   "devDependencies": {
     "eslint": "5.14.1",

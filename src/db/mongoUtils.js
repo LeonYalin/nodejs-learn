@@ -1,6 +1,6 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const { mongoPersons } = require('../fixtures/persons');
-const dbConfig = require('./dbConfig');
+const dbConfig = require('../config/db.config');
 
 const mongoConfig = dbConfig.getMongoConfig();
 
