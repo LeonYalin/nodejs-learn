@@ -1,9 +1,9 @@
-const adminRouter = require('../routes/admin.route');
+const adminRouter = require('../routes/admin.routes');
 const personsItems = require('../routes/personsItems');
-const personsRouter = require('../routes/persons.route')(personsItems);
+const personsRouter = require('../routes/persons.routes')(personsItems);
 const indexLinks = require('../routes/indexLinks');
-const indexRouter = require('../routes/index.route')(indexLinks);
-const usersRouter = require('../routes/users.route');
+const indexRouter = require('../routes/index.routes')(indexLinks);
+const usersRouter = require('../routes/users.routes');
 
 function routesConfig(app) {
   app.use('/', indexRouter);

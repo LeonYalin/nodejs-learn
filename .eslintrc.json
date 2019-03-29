@@ -15,7 +15,8 @@
         "eslint linebreak-style": [0, "error", "windows"],
         "no-restricted-syntax": [2, "LabeledStatement", "WithStatement"],
         "no-underscore-dangle": [2, { "allow": ["_id", "__basedir"] }],
-        "new-cap": [2, { "newIsCapExceptions": ["autoComplete", "Router"] , "properties": false }]
+        "new-cap": [2, { "newIsCapExceptions": ["autoComplete", "Router"] , "properties": false }],
+        "max-len": [2, { "code": 120 }]
     },
     "plugins": ["json", "html"]
 }

@@ -48,7 +48,7 @@
     </form>
   </div>
 
-  <div class="persons-blocks-wrapper ml20">
+  <div class="persons-blocks-wrapper -columns ml20">
 
     <!-- CREATE DATABASES -->
     <div class="person-wrapper-block">
@@ -66,7 +66,7 @@
     </div>
 
     <!-- LOAD PERSONS DATA -->
-    <div class="person-wrapper-block mt20">
+    <div class="person-wrapper-block">
       <div class="form-group">
         <h1>Load persons data</h1>
       </div>
@@ -81,7 +81,7 @@
     </div>
 
     <!-- SEARCH PERSONS -->
-    <div class="person-wrapper-block mt20">
+    <div class="person-wrapper-block">
       <form action="/admin/search" method="post">
         <div class="form-group">
           <h1>Search persons</h1>
@@ -90,6 +90,16 @@
           <input type="text" id="search-persons" class="form-control" placeholder="Search persons" name="name">
         </div>
       </form>
+    </div>
+
+    <!-- PERSONS CLEANUP JOB -->
+    <div class="person-wrapper-block">
+      <div class="form-group">
+        <h1>Run jobs</h1>
+      </div>
+      <div class="input-group">
+        <button id="persons-cleanup-job" class="btn btn-primary">Run persons cleanup job</button>
+      </div>
     </div>
 
   </div>

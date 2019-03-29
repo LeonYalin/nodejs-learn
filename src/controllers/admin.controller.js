@@ -1,7 +1,7 @@
 const debug = require('debug')('app:adminController');
 const chalk = require('chalk');
-const SqlUtils = require('../db/sqlUtils');
-const MongoUtils = require('../db/mongoUtils');
+const SqlUtils = require('../utils/sql.utils');
+const MongoUtils = require('../utils/mongo.utils');
 const Person = require('../entities/Person');
 
 class AdminController {

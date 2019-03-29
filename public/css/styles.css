@@ -120,6 +120,10 @@ fl1 {
     flex-direction: column;
 }
 
+#admin-page .persons-blocks-wrapper.-columns {
+    justify-content: space-between;
+}
+
 #admin-page .divider {
     width: 20px;
 }

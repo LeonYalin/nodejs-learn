@@ -27,4 +27,9 @@ document.addEventListener('DOMContentLoaded', (() => {
     },
   });
   autoCompl.toString(); // just for the linter
+
+  const persCleanJobBtn = document.getElementById('persons-cleanup-job');
+  persCleanJobBtn.onclick = (() => {
+    window.socket.emit('runPersonsCleanupJob', {});
+  });
 }), false);

@@ -1,6 +1,6 @@
 const debug = require('debug')('app:personsController');
-const SqlUtils = require('../db/sqlUtils');
-const MongoUtils = require('../db/mongoUtils');
+const SqlUtils = require('../utils/sql.utils');
+const MongoUtils = require('../utils/mongo.utils');
 
 class PersonsCotroller {
   static getPage(req, res) {
