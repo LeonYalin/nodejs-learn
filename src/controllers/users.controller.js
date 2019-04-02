@@ -2,6 +2,7 @@ const passport = require('passport');
 const debug = require('debug')('app:usersController');
 const MongoUtils = require('../utils/mongo.utils');
 const usersService = require('../services/users.service');
+const passportConfig = require('../config/passport.config');
 
 class UsersController {
   static getPage(req, res) {
@@ -14,7 +15,7 @@ class UsersController {
     (async function createUser() {
       const user = await MongoUtils.createUser(req.body);
       req.login(user, () => {
-        res.redirect('/');
+        res.redirect(passportConfig.getRedirectUrl() || '/');
       });
     }());
   }
@@ -22,7 +23,7 @@ class UsersController {
   static signin(req, res, next) {
     debug('signin', req.body, res.locals);
     passport.authenticate('local', {
-      successRedirect: '/',
+      successRedirect: passportConfig.getRedirectUrl() || '/',
       failureRedirect: '/users/not-authorized',
     })(req, res, next);
   }

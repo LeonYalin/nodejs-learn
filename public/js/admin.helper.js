@@ -30,6 +30,6 @@ document.addEventListener('DOMContentLoaded', (() => {
 
   const persCleanJobBtn = document.getElementById('persons-cleanup-job');
   persCleanJobBtn.onclick = (() => {
-    window.socket.emit('runPersonsCleanupJob', {});
+    window.socketEmit();
   });
 }), false);

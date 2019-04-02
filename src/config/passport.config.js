@@ -1,7 +1,10 @@
 const passport = require('passport');
 require('./strategies/local.strategy')();
 
+let redirectUrl = null;
+
 function authenticate(req, res, next) {
+  redirectUrl = req.originalUrl;
   if (req.user) {
     next();
   } else {
@@ -24,7 +27,12 @@ function passportConfig(app) {
   });
 }
 
+function getRedirectUrl() {
+  return redirectUrl;
+}
+
 module.exports = {
   authenticate,
   passportConfig,
+  getRedirectUrl,
 };

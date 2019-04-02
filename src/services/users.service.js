@@ -1,4 +1,4 @@
-const debug = require('debug')('app:usersService');
+const debug = require('debug')('app:UsersService');
 const axios = require('axios');
 
 class UsersService {

@@ -1,24 +1,31 @@
 const debug = require('debug')('app:SocketUtils');
 const socketio = require('socket.io');
-const SocketEventsUtils = require('./socket-events.utils');
 
 class SocketUtils {
   constructor() {
     this.socket = null;
-    this.socketEventsUtils = new SocketEventsUtils();
+    this.clientName = 'node_learn';
+    this.events = ['runPersonsCleanupJob', 'helloFromClientSize'];
   }
 
   run(server) {
-    if (this.socket) return;
+    return new Promise((resolve, reject) => {
+      if (this.socket) {
+        reject(new Error('socket already exists'));
+        return;
+      }
 
-    const io = socketio(server);
+      const io = socketio(server);
 
-    io.on('connection', (socket) => {
-      this.socket = socket;
-      debug('Successfully created connection');
+      io.on('connection', (socket) => {
+        this.socket = socket;
+        debug('Successfully created connection');
+        resolve({});
 
-      this.subscribeToAllEvents();
-      this.publish('hello', { hello: 'from node_learn!' });
+        socket.on('disconnect', () => {
+          debug('Successfully disconnected');
+        });
+      });
     });
   }
 
@@ -34,6 +41,10 @@ class SocketUtils {
     debug(`subsribed to event '${name}'`);
   }
 
+  publishToClient(data) {
+    this.publish(this.clientName, data);
+  }
+
   unsubscribe(name, callback) {
     if (!this.socket) return;
     this.socket.off(name, callback);
@@ -43,12 +54,6 @@ class SocketUtils {
     if (!this.socket) return;
     this.socket.close();
     this.socket = null;
-  }
-
-  subscribeToAllEvents() {
-    for (const { name, callback } of this.socketEventsUtils.events) {
-      this.subscribe(name, callback);
-    }
   }
 }
 
