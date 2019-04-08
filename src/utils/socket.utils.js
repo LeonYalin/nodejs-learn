@@ -8,24 +8,22 @@ class SocketUtils {
     this.events = ['runPersonsCleanupJob', 'helloFromClientSize'];
   }
 
-  run(server) {
-    return new Promise((resolve, reject) => {
-      if (this.socket) {
-        reject(new Error('socket already exists'));
-        return;
-      }
+  run(server, callback = undefined) {
+    if (this.socket) return;
 
-      const io = socketio(server);
+    const io = socketio(server);
 
-      io.on('connection', (socket) => {
-        this.socket = socket;
-        debug('Successfully created connection');
-        resolve({});
+    io.on('connection', (socket) => {
+      this.socket = socket;
+      debug('Successfully created connection');
 
-        socket.on('disconnect', () => {
-          debug('Successfully disconnected');
-        });
+      socket.on('disconnect', () => {
+        debug('Successfully disconnected');
       });
+
+      if (typeof callback === 'function') {
+        callback();
+      }
     });
   }
 

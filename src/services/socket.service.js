@@ -10,11 +10,12 @@ class SocketService {
     this.socketUtils = new SocketUtils();
   }
 
-  async init(server) {
+  init(server) {
     try {
-      await this.socketUtils.run(server);
-      this.subscribeToAllEvents();
-      this.socketUtils.publishToClient({ hello: 'from node_learn!' });
+      this.socketUtils.run(server, (() => {
+        this.subscribeToAllEvents();
+        this.socketUtils.publishToClient({ hello: 'from node_learn!' });
+      }));
     } catch (e) {
       throw new Error(e);
     }

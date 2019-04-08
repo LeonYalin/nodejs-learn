@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start2": "set DEBUG=app,app:* & nodemon app.js",
-    "start": "set DEBUG=socket.io* & nodemon app.js",
+    "start": "set DEBUG=app,app:* & nodemon app.js",
     "heroku-prebuild": "npm install --only=dev",
     "lint": "eslint app.js"
   },

@@ -10,14 +10,12 @@ class UsersController {
     res.render('users');
   }
 
-  static signup(req, res) {
+  static async signup(req, res) {
     debug('signup', req.user);
-    (async function createUser() {
-      const user = await MongoUtils.createUser(req.body);
-      req.login(user, () => {
-        res.redirect(passportConfig.getRedirectUrl() || '/');
-      });
-    }());
+    const user = await MongoUtils.createUser(req.body);
+    req.login(user, () => {
+      res.redirect(passportConfig.getRedirectUrl() || '/');
+    });
   }
 
   static signin(req, res, next) {
@@ -33,15 +31,13 @@ class UsersController {
     res.render('not-authorized');
   }
 
-  static getOnlineUsers(req, res) {
-    (async function getUsers() {
-      try {
-        const response = await usersService.getOnlineUsers();
-        res.json(response.data);
-      } catch (e) {
-        res.status(400).send(e);
-      }
-    }());
+  static async getOnlineUsers(req, res) {
+    try {
+      const response = await usersService.getOnlineUsers();
+      res.json(response.data);
+    } catch (e) {
+      res.status(400).send(e);
+    }
   }
 }
 

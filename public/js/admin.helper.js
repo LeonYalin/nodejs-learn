@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', (() => {
   let formattedResults = [];
 
   (async function search() {
+    const body = { name: '' };
+
     try {
-      const body = { name: '' };
       const response = await fetch('/admin/search', { headers: { 'Content-Type': 'application/json' }, method: 'POST', body: JSON.stringify(body) });
-      results = await response.json();
-      formattedResults = results.map(i => `${i.firstName} ${i.lastName}`);
+      if (response.ok) {
+        results = await response.json();
+        formattedResults = results.map(i => `${i.firstName} ${i.lastName}`);
+      }
     } catch (e) {
       throw new Error(e);
     }
