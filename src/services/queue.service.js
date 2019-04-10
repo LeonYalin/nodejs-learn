@@ -17,12 +17,21 @@ class QueueService {
 
   subscribeToJobsQueue() {
     this.queueUtils.subscribeToJobsQueue((data) => {
-      debug('subscribeToJobsQueue', data);
+      debug('subscribeToJobsQueue', QueueService.parseBuffer(data));
     });
+  }
+
+  publishToJobsQueue(data) {
+    this.queueUtils.publishToJobsQueue(data);
+    debug('publishToJobsQueue with data:', data);
   }
 
   static logEvent(name, data) {
     debug(`received event ${name} with data:`, data);
+  }
+
+  static parseBuffer(data) {
+    return JSON.parse(data.content);
   }
 }
 

@@ -2,12 +2,13 @@ const debug = require('debug')('app:SocketService');
 const SocketUtils = require('../utils/socket.utils');
 
 class SocketService {
-  constructor() {
+  constructor(queueService) {
     this.eventHandlers = [
-      { name: 'runPersonsCleanupJob', handlerFunc: SocketService.handleRunPersonsCleanupJobEvent },
+      { name: 'runPersonsCleanupJob', handlerFunc: this.handleRunPersonsCleanupJobEvent.bind(this) },
       { name: 'helloFromClientSize', handlerFunc: SocketService.handleHelloFromClientSize },
     ];
     this.socketUtils = new SocketUtils();
+    this.queueService = queueService;
   }
 
   init(server) {
@@ -34,16 +35,21 @@ class SocketService {
     }
   }
 
-  static handleRunPersonsCleanupJobEvent(data) {
-    SocketService.logEvent('runPersonsCleanupJob callback', data);
+  handleRunPersonsCleanupJobEvent(data) {
+    SocketService.logEvent('runPersonsCleanupJob', data);
+    this.queueService.publishToJobsQueue(SocketService.bufferize(data));
   }
 
   static handleHelloFromClientSize(data) {
-    SocketService.logEvent('helloFromClientSize callback', data);
+    SocketService.logEvent('helloFromClientSize', data);
   }
 
   static logEvent(name, data) {
     debug(`received event ${name} with data:`, data);
+  }
+
+  static bufferize(data) {
+    return Buffer.from(JSON.stringify(data));
   }
 }
 
