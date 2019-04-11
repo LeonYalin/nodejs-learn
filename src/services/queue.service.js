@@ -6,18 +6,31 @@ class QueueService {
     this.queueUtils = new QueueUtils();
   }
 
-  async init() {
+  async init(callback) {
     try {
       await this.queueUtils.run();
-      this.subscribeToJobsQueue();
+      if (typeof callback === 'function') {
+        callback();
+      }
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  subscribeToJobsQueue() {
+  subscribeToJobsQueue(personsCleanupCallback) {
     this.queueUtils.subscribeToJobsQueue((data) => {
-      debug('subscribeToJobsQueue', QueueService.parseBuffer(data));
+      const jobData = QueueService.parseBuffer(data);
+      debug('subscribeToJobsQueue', jobData);
+
+      switch (jobData.action) {
+        case 'personsCleanupJob':
+          if (typeof personsCleanupCallback === 'function') {
+            personsCleanupCallback(jobData);
+          }
+          break;
+        default:
+          break;
+      }
     });
   }
 

@@ -5,7 +5,7 @@ class SocketUtils {
   constructor() {
     this.socket = null;
     this.clientName = 'node_learn';
-    this.events = ['runPersonsCleanupJob', 'helloFromClientSize'];
+    this.events = ['personsCleanupJob', 'helloFromClientSize'];
   }
 
   run(server, callback = undefined) {

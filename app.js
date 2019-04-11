@@ -8,7 +8,7 @@ global.__basedir = __dirname;
 
 require('./src/config/messages.config')(server);
 require('./src/config/parsers.config')(app);
-require('./src/config/passport.config').passportConfig(app);
+require('./src/config/passport.config').init(app);
 require('./src/config/routes.config')(app);
 require('./src/config/assets.config')(app);
 

@@ -182,6 +182,23 @@ class MongoUtils {
       }());
     });
   }
+
+  static deleteAllPersons() {
+    return new Promise((resolve, reject) => {
+      (async function deletePersons() {
+        const connection = MongoUtils.createConnection();
+        try {
+          await connection.connect();
+          const db = connection.db(mongoConfig.dbName);
+          await db.collection(mongoConfig.personsCollName).deleteMany({});
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+        connection.close();
+      }());
+    });
+  }
 }
 
 

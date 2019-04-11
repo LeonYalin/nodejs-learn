@@ -4,7 +4,7 @@ const AdminController = require('../controllers/admin.controller');
 
 const adminRouter = express.Router();
 
-adminRouter.use(authenticate);
+ adminRouter.use(authenticate);
 
 adminRouter.route('/')
   .get(AdminController.getPage);

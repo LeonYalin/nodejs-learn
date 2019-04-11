@@ -3,45 +3,31 @@ const SocketUtils = require('../utils/socket.utils');
 
 class SocketService {
   constructor(queueService) {
-    this.eventHandlers = [
-      { name: 'runPersonsCleanupJob', handlerFunc: this.handleRunPersonsCleanupJobEvent.bind(this) },
-      { name: 'helloFromClientSize', handlerFunc: SocketService.handleHelloFromClientSize },
-    ];
     this.socketUtils = new SocketUtils();
-    this.queueService = queueService;
   }
 
-  init(server) {
+  init(server, callback) {
     try {
       this.socketUtils.run(server, (() => {
-        this.subscribeToAllEvents();
-        this.socketUtils.publishToClient({ hello: 'from node_learn!' });
+        if (typeof callback === 'function') {
+          callback();
+        }
       }));
     } catch (e) {
       throw new Error(e);
     }
   }
 
-  subscribeToAllEvents() {
-    for (const event of this.socketUtils.events) {
-      this.subscribeToEvent(event);
-    }
+  publish(name, data) {
+    this.socketUtils.publish(name, data);
   }
 
-  subscribeToEvent(name) {
-    const handler = this.eventHandlers.find(i => i.name === name);
-    if (handler) {
-      this.socketUtils.subscribe(name, handler.handlerFunc);
-    }
+  subscribe(name, callback) {
+    this.socketUtils.subscribe(name, callback);
   }
 
-  handleRunPersonsCleanupJobEvent(data) {
-    SocketService.logEvent('runPersonsCleanupJob', data);
-    this.queueService.publishToJobsQueue(SocketService.bufferize(data));
-  }
-
-  static handleHelloFromClientSize(data) {
-    SocketService.logEvent('helloFromClientSize', data);
+  publishToClient(data) {
+    this.socketUtils.publishToClient(data);
   }
 
   static logEvent(name, data) {

@@ -12,7 +12,7 @@ function authenticate(req, res, next) {
   }
 }
 
-function passportConfig(app) {
+function init(app) {
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -33,6 +33,6 @@ function getRedirectUrl() {
 
 module.exports = {
   authenticate,
-  passportConfig,
+  init,
   getRedirectUrl,
 };

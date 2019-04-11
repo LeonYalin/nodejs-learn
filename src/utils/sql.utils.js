@@ -87,6 +87,11 @@ class SqlUtils {
     return connection.query(query);
   }
 
+  static deleteAllPersonsQuery(connection) {
+    const query = `DELETE FROM ${mysqlConfig.personsTableName}`;
+    return connection.query(query);
+  }
+
   static createDBData() {
     return new Promise((resolve, reject) => {
       (async function createData() {
@@ -148,6 +153,22 @@ class SqlUtils {
       }());
     });
   }
+
+  static deleteAllPersons() {
+    return new Promise((resolve, reject) => {
+      (async function deletePersons() {
+        try {
+          const connection = await SqlUtils.createConnection();
+          await SqlUtils.deleteAllPersonsQuery(connection);
+          await connection.end();
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }());
+    });
+  }
 }
+
 
 module.exports = SqlUtils;
