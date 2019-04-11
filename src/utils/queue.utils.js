@@ -1,5 +1,8 @@
 const debug = require('debug')('app:QueueUtils');
 const amqp = require('amqplib/callback_api');
+const connectionConfig = require('../config/connection.config');
+
+const rabbitmqConfig = connectionConfig.getMySqlConfig();
 
 class QueueUtils {
   constructor() {
@@ -11,7 +14,7 @@ class QueueUtils {
 
   run() {
     return new Promise((resolve, reject) => {
-      amqp.connect('amqp://localhost', (err, conn) => {
+      amqp.connect(rabbitmqConfig.url, (err, conn) => {
         if (err) {
           debug('Connection error occured', err);
           reject(err);

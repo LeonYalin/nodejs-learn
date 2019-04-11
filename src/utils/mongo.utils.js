@@ -1,8 +1,8 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const { mongoPersons } = require('../fixtures/persons');
-const dbConfig = require('../config/db.config');
+const connectionConfig = require('../config/connection.config');
 
-const mongoConfig = dbConfig.getMongoConfig();
+const mongoConfig = connectionConfig.getMongoConfig();
 
 class MongoUtils {
   MongoUtils() {

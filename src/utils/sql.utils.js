@@ -1,8 +1,8 @@
 const mysql = require('promise-mysql');
 const { sqlPersons } = require('../fixtures/persons');
-const dbConfig = require('../config/db.config');
+const connectionConfig = require('../config/connection.config');
 
-const mysqlConfig = dbConfig.getMySqlConfig();
+const mysqlConfig = connectionConfig.getMySqlConfig();
 
 class SqlUtils {
   SqlUtils() {

@@ -35,6 +35,15 @@ const mongoConfig = {
   },
 };
 
+const rabbitmqConfig = {
+  heroku: {
+    url: 'amqp://ajufului:8g6uLdZtTax0JRkp_bR17YlKR_kJGfxK@chimpanzee.rmq.cloudamqp.com/ajufului',
+  },
+  local: {
+    url: 'amqp://localhost',
+  },
+};
+
 function isHerokuEnv() {
   return process.env.NODE_ENV === HEROKU;
 }
@@ -47,9 +56,15 @@ function getMongoConfig() {
   return isHerokuEnv() ? mongoConfig[HEROKU] : mongoConfig[LOCAL];
 }
 
+function getRabbitmqConfig() {
+  return isHerokuEnv() ? rabbitmqConfig[HEROKU] : rabbitmqConfig[LOCAL];
+}
+
 module.exports = {
   mysqlConfig,
   mongoConfig,
+  rabbitmqConfig,
   getMySqlConfig,
   getMongoConfig,
+  getRabbitmqConfig,
 };
