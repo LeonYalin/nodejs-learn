@@ -37,7 +37,7 @@ const mongoConfig = {
 
 const rabbitmqConfig = {
   heroku: {
-    url: 'amqp://ajufului:8g6uLdZtTax0JRkp_bR17YlKR_kJGfxK@chimpanzee.rmq.cloudamqp.com/ajufului',
+    url: 'amqp://ajufului:8g6uLdZtTax0JRkp_bR17YlKR_kJGfxK@chimpanzee.rmq.cloudamqp.com/ajufului?heartbeat=60',
   },
   local: {
     url: 'amqp://localhost',

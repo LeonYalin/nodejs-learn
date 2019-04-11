@@ -2,7 +2,7 @@ const debug = require('debug')('app:QueueUtils');
 const amqp = require('amqplib/callback_api');
 const connectionConfig = require('../config/connection.config');
 
-const rabbitmqConfig = connectionConfig.getMySqlConfig();
+const rabbitmqConfig = connectionConfig.getRabbitmqConfig();
 
 class QueueUtils {
   constructor() {
